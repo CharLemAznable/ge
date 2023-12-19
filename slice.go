@@ -18,9 +18,3 @@ func RemoveElementByValue[T any](slice []T, value T) []T {
 	}
 	return append(result, slice[start:cursor]...)
 }
-
-func ConsumeEach[T any](consumers []func(T), event T) {
-	for _, consumer := range consumers {
-		go consumer(event)
-	}
-}

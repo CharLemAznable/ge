@@ -2,8 +2,6 @@ package ge_test
 
 import (
 	"github.com/CharLemAznable/ge"
-	"sync"
-	"sync/atomic"
 	"testing"
 )
 
@@ -41,25 +39,4 @@ func slicesEqualFunc(a, b []testFn) bool {
 		}
 	}
 	return true
-}
-
-func TestConsumeEach(t *testing.T) {
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
-	var sum atomic.Int64
-	fn1 := func(i int) {
-		sum.Add(int64(i))
-		wg.Done()
-	}
-	wg.Add(1)
-	fn2 := func(i int) {
-		sum.Add(int64(i))
-		wg.Done()
-	}
-	slice := []func(int){fn1, fn2}
-	ge.ConsumeEach(slice, 2)
-	wg.Wait()
-	if sum.Load() != 4 {
-		t.Errorf("Expected sum 4, but got %d", sum.Load())
-	}
 }
